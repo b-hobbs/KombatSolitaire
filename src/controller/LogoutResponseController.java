@@ -14,23 +14,23 @@ import view.UserManagerGUI;
  *
  */
 public class LogoutResponseController implements IProcessClientMessage{
-	
-	public final String PLAYER_ITEM_NAME = "player";
-	UserManager um = UserManager.instance();
+    
+    public final String PLAYER_ITEM_NAME = "player";
+    UserManager um = UserManager.instance();
 
-	@Override
-	public boolean process(ILobby lobby, Message m) {
-		Node info = m.contents();
-		
-		NamedNodeMap playerMap = info.getAttributes();
-		int playerID = Integer.parseInt(
-				playerMap.getNamedItem(PLAYER_ITEM_NAME).getNodeValue());
-					
-		um.removePlayer(playerID);
-		
-		//TODO: make player leave from the table they were on if necessary
-		
-		((UserManagerGUI)lobby.getUserManagerGUI()).refresh();
-		return true;
-	}
+    @Override
+    public boolean process(ILobby lobby, Message m) {
+        Node info = m.contents();
+        
+        NamedNodeMap playerMap = info.getAttributes();
+        int playerID = Integer.parseInt(
+                playerMap.getNamedItem(PLAYER_ITEM_NAME).getNodeValue());
+                    
+        um.removePlayer(playerID);
+        
+        //TODO: make player leave from the table they were on if necessary
+        
+        ((UserManagerGUI)lobby.getUserManagerGUI()).refresh();
+        return true;
+    }
 }

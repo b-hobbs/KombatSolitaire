@@ -25,159 +25,159 @@ import ks.framework.common.Message;
 import ks.server.ipc.Server;
 
 public class TestConfirmController extends TestCase{
-	// host
-	public static final String localhost = "localhost";
-	
-	// sample credentials (really meaningless in the testing case)
-	public static final String user = "11323";
-	public static final String password = "password";
-	
-	/** Constructed objects for this test case. */
-	Server server;
-	UserContext context;
-	LobbyFrame lobby;
-	
-	UserManager um;
-	TableManager tm;
-	
-	// random port 8000-10000 to avoid arbitrary conflicts
-	int port;
-	
-	/**
-	 * setUp() method is executed by the JUnit framework prior to each 
-	 * test case.
-	 */
-	protected void setUp() {
-		// Determine the XML schema we are going to use
-		try {
-			Message.unconfigure();
-			assertTrue (Configure.configure());
-		} catch (Exception e) {
-			fail ("Unable to setup Message tests.");
-		}
-		
-		// start server on a random port.
-		port = (int) (8000 + Math.random()*2000);
-		server = new Server(port);
-		
-		// Any non-standard controllers for server would need to be included here
-		
-		assertTrue (server.activate());
-		
-		waitASecond();
-		
-		// Any non-standard controllers for client would need to be included here.
-		// Specifically, the output response handler is non standard, so include
-		// that one here.
-		ClientControllerChain head = ClientProcessor.head();
-		head.append(new ClientExtension());
-		head.append(new LogoutExtension());
-		head.append(new PlayerResponseExtension());
-		head.append(new ConfirmExtension());
-		
-		// create client to connect
-		context = new UserContext();  // by default, localhost
-		lobby = new LobbyFrame (context);
-		lobby.setVisible(true);
-		lobby.setUserManagerGUI(new UserManagerGUI());
-		context.setPort(port);
-		context.setUser(user);
-		context.setPassword(password);
-		context.setSelfRegister(false);
-		
-		// connect client to server
-		assertTrue (new ConnectController(lobby).process(context));
-		
-		Table table = new Table(1);
-		tm = TableManager.instance();
-		Player p = new Player(390);
-		Player p2 = new Player(Integer.parseInt(user));
-		p2.setTable(1);
-		tm.addPlayer(1, p2);	
-		um = UserManager.instance();
-		um.addPlayer(p);
-		um.addPlayer(p2);
-		
-		// Set UserManager, TableManager and GameManager GUI panels
-				UserManagerGUI userManagerGUI = new UserManagerGUI();
-				TableManagerGUI tableManagerGUI = new TableManagerGUI();
-				GameManagerGUI gameManagerGUI = new GameManagerGUI();
-				
-				TabbedLayoutGUI tabbedLayoutGUI = new TabbedLayoutGUI();
-				tabbedLayoutGUI.setTablesPanel(tableManagerGUI);
-				tabbedLayoutGUI.setGamePanel(gameManagerGUI);
-						
-				lobby.setUserManagerGUI(userManagerGUI);
-				lobby.setTableManagerGUI(tabbedLayoutGUI);
-				
-				((TabbedLayoutGUI)lobby.getTableManagerGUI()).setILobby(lobby);
-				((UserManagerGUI)lobby.getUserManagerGUI()).setLobby(lobby);
-			
-		// wait for things to settle down. As your test cases become more
-		// complex, we may find it necessary to include additional waiting 
-		// times.
-		waitASecond();
-	}
+    // host
+    public static final String localhost = "localhost";
+    
+    // sample credentials (really meaningless in the testing case)
+    public static final String user = "11323";
+    public static final String password = "password";
+    
+    /** Constructed objects for this test case. */
+    Server server;
+    UserContext context;
+    LobbyFrame lobby;
+    
+    UserManager um;
+    TableManager tm;
+    
+    // random port 8000-10000 to avoid arbitrary conflicts
+    int port;
+    
+    /**
+     * setUp() method is executed by the JUnit framework prior to each 
+     * test case.
+     */
+    protected void setUp() {
+        // Determine the XML schema we are going to use
+        try {
+            Message.unconfigure();
+            assertTrue (Configure.configure());
+        } catch (Exception e) {
+            fail ("Unable to setup Message tests.");
+        }
+        
+        // start server on a random port.
+        port = (int) (8000 + Math.random()*2000);
+        server = new Server(port);
+        
+        // Any non-standard controllers for server would need to be included here
+        
+        assertTrue (server.activate());
+        
+        waitASecond();
+        
+        // Any non-standard controllers for client would need to be included here.
+        // Specifically, the output response handler is non standard, so include
+        // that one here.
+        ClientControllerChain head = ClientProcessor.head();
+        head.append(new ClientExtension());
+        head.append(new LogoutExtension());
+        head.append(new PlayerResponseExtension());
+        head.append(new ConfirmExtension());
+        
+        // create client to connect
+        context = new UserContext();  // by default, localhost
+        lobby = new LobbyFrame (context);
+        lobby.setVisible(true);
+        lobby.setUserManagerGUI(new UserManagerGUI());
+        context.setPort(port);
+        context.setUser(user);
+        context.setPassword(password);
+        context.setSelfRegister(false);
+        
+        // connect client to server
+        assertTrue (new ConnectController(lobby).process(context));
+        
+        Table table = new Table(1);
+        tm = TableManager.instance();
+        Player p = new Player(390);
+        Player p2 = new Player(Integer.parseInt(user));
+        p2.setTable(1);
+        tm.addPlayer(1, p2);    
+        um = UserManager.instance();
+        um.addPlayer(p);
+        um.addPlayer(p2);
+        
+        // Set UserManager, TableManager and GameManager GUI panels
+                UserManagerGUI userManagerGUI = new UserManagerGUI();
+                TableManagerGUI tableManagerGUI = new TableManagerGUI();
+                GameManagerGUI gameManagerGUI = new GameManagerGUI();
+                
+                TabbedLayoutGUI tabbedLayoutGUI = new TabbedLayoutGUI();
+                tabbedLayoutGUI.setTablesPanel(tableManagerGUI);
+                tabbedLayoutGUI.setGamePanel(gameManagerGUI);
+                        
+                lobby.setUserManagerGUI(userManagerGUI);
+                lobby.setTableManagerGUI(tabbedLayoutGUI);
+                
+                ((TabbedLayoutGUI)lobby.getTableManagerGUI()).setILobby(lobby);
+                ((UserManagerGUI)lobby.getUserManagerGUI()).setLobby(lobby);
+            
+        // wait for things to settle down. As your test cases become more
+        // complex, we may find it necessary to include additional waiting 
+        // times.
+        waitASecond();
+    }
 
-	/**
-	 * tearDown() is executed by JUnit at the conclusion of each individual
-	 * test case.
-	 */
-	protected void tearDown() {
-		waitASecond();
-		server.deactivate();
-		
-		lobby.setVisible(false);
-		lobby.dispose();
-		
-		tm.instance = null;
-		um.inst = null;
-	}
-	
-	// helper function to sleep for a second.
-	private void waitASecond() {
-		// literally wait a second.
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			
-		}
-	}
-	
-	/**
-	 * Test processing a confirm request
-	 */
-	public void testConfirm(){
-		
-		System.out.println("My table is " + um.getPlayer(Integer.parseInt(user)).getTable());
-		
-		String cmd = Message.requestHeader()
-				+"<confirm table='1' player='390' />"
-				+"</request>";
-		
-		Document d = Message.construct(cmd);
-		Message m = new Message(d);
-		lobby.getContext().getClient().process(m);
-		
-		assertTrue(tm.getTable(1).getRequested().get(0).getId() == 390);
-	}
-	
-	/**
-	 * Test confirming a response
-	 */
-	public void testConfirmResponse(){
-		
-		ConfirmResponseController crc = new ConfirmResponseController(lobby);
-		crc.confirmTrue(390, 1, "100");
-	}
-	
-	/**
-	 * Test rejecting a response
-	 */
-	
+    /**
+     * tearDown() is executed by JUnit at the conclusion of each individual
+     * test case.
+     */
+    protected void tearDown() {
+        waitASecond();
+        server.deactivate();
+        
+        lobby.setVisible(false);
+        lobby.dispose();
+        
+        tm.instance = null;
+        um.inst = null;
+    }
+    
+    // helper function to sleep for a second.
+    private void waitASecond() {
+        // literally wait a second.
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            
+        }
+    }
+    
+    /**
+     * Test processing a confirm request
+     */
+    public void testConfirm(){
+        
+        System.out.println("My table is " + um.getPlayer(Integer.parseInt(user)).getTable());
+        
+        String cmd = Message.requestHeader()
+                +"<confirm table='1' player='390' />"
+                +"</request>";
+        
+        Document d = Message.construct(cmd);
+        Message m = new Message(d);
+        lobby.getContext().getClient().process(m);
+        
+        assertTrue(tm.getTable(1).getRequested().get(0).getId() == 390);
+    }
+    
+    /**
+     * Test confirming a response
+     */
+    public void testConfirmResponse(){
+        
+        ConfirmResponseController crc = new ConfirmResponseController(lobby);
+        crc.confirmTrue(390, 1, "100");
+    }
+    
+    /**
+     * Test rejecting a response
+     */
+    
 public void testConfirmResponseFalse(){
-		
-		ConfirmResponseController crc = new ConfirmResponseController(lobby);
-		crc.confirmFalse(390, 1, "100");
-	}
+        
+        ConfirmResponseController crc = new ConfirmResponseController(lobby);
+        crc.confirmFalse(390, 1, "100");
+    }
 }

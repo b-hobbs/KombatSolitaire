@@ -12,15 +12,15 @@ import controller.LogoutResponseController;
  *
  */
 public class LogoutExtension extends ClientControllerChain {
-	
-	@Override
-	public boolean process(ILobby lobby, Message m) {
-		if (m.getName().equalsIgnoreCase("logoutResponse")) {
-			return new LogoutResponseController().process(lobby, m);
-		} 
-		
-		// try the next one in the chain...
-		return next (lobby, m);
-	}
+    
+    @Override
+    public boolean process(ILobby lobby, Message m) {
+        if (m.getName().equalsIgnoreCase("logoutResponse")) {
+            return new LogoutResponseController().process(lobby, m);
+        } 
+        
+        // try the next one in the chain...
+        return next (lobby, m);
+    }
 
 }

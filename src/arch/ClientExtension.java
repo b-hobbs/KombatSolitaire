@@ -14,17 +14,17 @@ import ks.framework.common.Message;
  * @author George Heineman
  */
 public class ClientExtension extends ClientControllerChain {
-	
-	/**
-	 * This extension understands Chat and that's it.
-	 */
-	@Override
-	public boolean process(ILobby lobby, Message m) {
-		if (m.getName().equalsIgnoreCase("output")) {
-			return new LobbyOutputController().process(lobby, m);
-		} 
+    
+    /**
+     * This extension understands Chat and that's it.
+     */
+    @Override
+    public boolean process(ILobby lobby, Message m) {
+        if (m.getName().equalsIgnoreCase("output")) {
+            return new LobbyOutputController().process(lobby, m);
+        } 
 
-		// try the next one in the chain...
-		return next (lobby, m);
-	}
+        // try the next one in the chain...
+        return next (lobby, m);
+    }
 }

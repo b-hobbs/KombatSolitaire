@@ -23,61 +23,61 @@ import controller.UserManager;
 import ks.client.interfaces.ILobby;
 
 /**
- * 	
- *	GUI that displays information about the users on the client
- *	Displays JTable of user ids, names, table they are on, and privateChatScope 
+ *  
+ *  GUI that displays information about the users on the client
+ *  Displays JTable of user ids, names, table they are on, and privateChatScope 
  * @author bhobbs
  *
  */
 public class UserManagerGUI extends JPanel {
-	JTable table;
-	ILobby lobby;
+    JTable table;
+    ILobby lobby;
 
-	/**
-	 * Creates the table of connect user info
-	 */
-	public UserManagerGUI() {
-		super(new GridLayout(1, 0));
+    /**
+     * Creates the table of connect user info
+     */
+    public UserManagerGUI() {
+        super(new GridLayout(1, 0));
 
-		table = new JTable(new UserManagerModel());
+        table = new JTable(new UserManagerModel());
 
-		// Enable column sorting
-		table.setAutoCreateRowSorter(true);
+        // Enable column sorting
+        table.setAutoCreateRowSorter(true);
 
-		// Center the Table column
-		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-		table.getColumn("Table").setCellRenderer(dtcr);
+        // Center the Table column
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+        table.getColumn("Table").setCellRenderer(dtcr);
 
-		// Center the Chat Column
-		// table.getColumn("Chat").setCellRenderer(dtcr);
+        // Center the Chat Column
+        // table.getColumn("Chat").setCellRenderer(dtcr);
 
-		table.setCellSelectionEnabled(false);
-		table.setColumnSelectionAllowed(false);
-		table.setRowSelectionAllowed(true);
+        table.setCellSelectionEnabled(false);
+        table.setColumnSelectionAllowed(false);
+        table.setRowSelectionAllowed(true);
 
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		// Set preffered width of Name column
-		table.getColumnModel().getColumn(1).setPreferredWidth(300);
+        // Set preffered width of Name column
+        table.getColumnModel().getColumn(1).setPreferredWidth(300);
 
-		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane);
-	}
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane);
+    }
 
-	/**
-	 * Updates the data in the JTable
-	 */
-	public void refresh() {
-		((UserManagerModel) table.getModel()).updateData();
-	}
+    /**
+     * Updates the data in the JTable
+     */
+    public void refresh() {
+        ((UserManagerModel) table.getModel()).updateData();
+    }
 
-	public void setLobby(ILobby lobby) {
-		this.lobby = lobby;
-		table.addMouseListener(new PopupListener(table, lobby));
-	}
+    public void setLobby(ILobby lobby) {
+        this.lobby = lobby;
+        table.addMouseListener(new PopupListener(table, lobby));
+    }
 
-	public JTable getJTable(){
-		return table;
-	}
+    public JTable getJTable(){
+        return table;
+    }
 }

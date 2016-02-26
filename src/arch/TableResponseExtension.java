@@ -11,15 +11,15 @@ import ks.framework.common.Message;
  * 
  */
 public class TableResponseExtension extends ClientControllerChain {
-	
-	@Override
-	public boolean process(ILobby lobby, Message m) {
-		if (m.getName().equalsIgnoreCase("tableResponse")) {
-			return new TableResponseController().process(lobby, m);
-		} 
-		
-		// try the next one in the chain...
-		return next (lobby, m);
-	}
+    
+    @Override
+    public boolean process(ILobby lobby, Message m) {
+        if (m.getName().equalsIgnoreCase("tableResponse")) {
+            return new TableResponseController().process(lobby, m);
+        } 
+        
+        // try the next one in the chain...
+        return next (lobby, m);
+    }
 
 }

@@ -10,18 +10,18 @@ import view.TabbedLayoutGUI;
  * or leaves a table)
  **/
 public class TableResponseController implements IProcessClientMessage {
-	
-	@Override
-	/**
-	 * Process an unsolicited table response
-	 **/
-	public boolean process(ILobby lobby, Message m) {
-		
-		boolean returnVal = new TableResponseShared().processTableResponse(lobby, m);
-		
-		((TabbedLayoutGUI)lobby.getTableManagerGUI()).refreshGamePanel();
-		
-		return returnVal;
-	}
+    
+    @Override
+    /**
+     * Process an unsolicited table response
+     **/
+    public boolean process(ILobby lobby, Message m) {
+        
+        boolean returnVal = new TableResponseShared().processTableResponse(lobby, m);
+        
+        ((TabbedLayoutGUI)lobby.getTableManagerGUI()).refreshGamePanel();
+        
+        return returnVal;
+    }
 
 }

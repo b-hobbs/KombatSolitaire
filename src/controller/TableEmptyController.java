@@ -10,12 +10,12 @@ import ks.framework.common.Message;
  */
 public class TableEmptyController implements IProcessClientMessage{
 
-	@Override
-	/**
-	 * Process an unsolicited tableEmpty response
-	 */
-	public boolean process(ILobby lobby, Message m) {
-		return new TableResponseShared().processEmptyResponse(lobby, m);
-	}
+    @Override
+    /**
+     * Process an unsolicited tableEmpty response
+     */
+    public boolean process(ILobby lobby, Message m) {
+        return new TableResponseShared().processEmptyResponse(lobby, m);
+    }
 
 }

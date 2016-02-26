@@ -20,71 +20,71 @@ import view.TabbedLayoutGUI;
  */
 public class JoinController implements IController {
 
-	/** Needs to know about the lobby **/
-	ILobby lobby;
-	
-	public JoinController (ILobby lobby) {
-		this.lobby = lobby;
-	}
-	
-	/**
-	 * Send a join table request to the server 
-	 * @param tableID 
-	 * @return
-	 */
-	public Message join(int tableID) {
-		String cmd = Message.requestHeader() + "<join table = '" + tableID + "'/>";
-		cmd += "</request>";
-		//System.out.println("constructing:"+cmd);
-		Document doc = Message.construct(cmd);
-		
-		Message m = new Message(doc);
-		
-		lobby.getContext().getClient().sendToServer(lobby, m, this);
-		
-		return m;
-	}
-	
-	@Override
-	/**
-	 * Processes the response
-	 * Could be a tableResponse, confirmResponse, or rejectResponse
-	 */
-	public void process(ILobby lobby, Message request, Message response) {
-		
-		String resp = response.name;
-		
-		if(resp.equals("tableResponse")){
-		
-			//for now, if it is unsuccessful, just tell the player
-			//TODO: actually do something with the response
-			if(!response.getResponseSuccess()){
-				lobby.append("Unable to join table!");
-				return;
-			} else {
-				// Process tableResponse
-				new TableResponseController().process(lobby, response);
-			
-				// Update the GUI as necessary
-				TabbedLayoutGUI tlg = ((TabbedLayoutGUI)lobby.getTableManagerGUI());
-				// Open up a game tab for us
-				tlg.setGamePanel(new GameManagerGUI());
-				// Provide lobby to new game tab
-				tlg.setILobby(lobby);
-				// Initialize GameManagerGUI componenets
-				tlg.initializeGameManagerGUI();
-				// Switch us to the GameManagerGUI
-				tlg.getTabbedPane().setSelectedIndex(tlg.getGamePanelTabIndex());
-			}
-		}
-		
-		else if (resp.equals("confirmResponse")){
-			//TODO
-			lobby.append("Joining!");
-		}
-		
-		else if (resp.equals("rejectResponse")){
-			lobby.append("Sorry! Your request to join the table was rejected!");
-		}
-	}
+    /** Needs to know about the lobby **/
+    ILobby lobby;
+    
+    public JoinController (ILobby lobby) {
+        this.lobby = lobby;
+    }
+    
+    /**
+     * Send a join table request to the server 
+     * @param tableID 
+     * @return
+     */
+    public Message join(int tableID) {
+        String cmd = Message.requestHeader() + "<join table = '" + tableID + "'/>";
+        cmd += "</request>";
+        //System.out.println("constructing:"+cmd);
+        Document doc = Message.construct(cmd);
+        
+        Message m = new Message(doc);
+        
+        lobby.getContext().getClient().sendToServer(lobby, m, this);
+        
+        return m;
+    }
+    
+    @Override
+    /**
+     * Processes the response
+     * Could be a tableResponse, confirmResponse, or rejectResponse
+     */
+    public void process(ILobby lobby, Message request, Message response) {
+        
+        String resp = response.name;
+        
+        if(resp.equals("tableResponse")){
+        
+            //for now, if it is unsuccessful, just tell the player
+            //TODO: actually do something with the response
+            if(!response.getResponseSuccess()){
+                lobby.append("Unable to join table!");
+                return;
+            } else {
+                // Process tableResponse
+                new TableResponseController().process(lobby, response);
+            
+                // Update the GUI as necessary
+                TabbedLayoutGUI tlg = ((TabbedLayoutGUI)lobby.getTableManagerGUI());
+                // Open up a game tab for us
+                tlg.setGamePanel(new GameManagerGUI());
+                // Provide lobby to new game tab
+                tlg.setILobby(lobby);
+                // Initialize GameManagerGUI componenets
+                tlg.initializeGameManagerGUI();
+                // Switch us to the GameManagerGUI
+                tlg.getTabbedPane().setSelectedIndex(tlg.getGamePanelTabIndex());
+            }
+        }
+        
+        else if (resp.equals("confirmResponse")){
+            //TODO
+            lobby.append("Joining!");
+        }
+        
+        else if (resp.equals("rejectResponse")){
+            lobby.append("Sorry! Your request to join the table was rejected!");
+        }
+    }
 }
